@@ -44,20 +44,47 @@ defmodule ChirpWeb.Layouts do
       </div>
       <div class="flex-none">
         <ul class="flex flex-column px-1 space-x-4 items-center">
-          <li>
-            <a href="https://phoenixframework.org/" class="btn btn-ghost">Website</a>
-          </li>
-          <li>
-            <a href="https://github.com/phoenixframework/phoenix" class="btn btn-ghost">GitHub</a>
-          </li>
-          <li>
-            <.theme_toggle />
-          </li>
-          <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html" class="btn btn-primary">
-              Get Started <span aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
+          <%= if @current_scope && @current_scope.user do %>
+            <%!-- Usuario logueado --%>
+            <li>
+              <span class="text-sm text-base-content/70">
+                Hola, {@current_scope.user.email}
+              </span>
+            </li>
+            <li>
+              <.link href={~p"/users/settings"} class="btn btn-ghost btn-sm">
+                Configuración
+              </.link>
+            </li>
+            <li>
+              <.link
+                href={~p"/users/log-out"}
+                method="delete"
+                class="btn btn-outline btn-error btn-sm"
+                data-confirm="¿Estás seguro de que quieres cerrar sesión?"
+              >
+                Salir
+              </.link>
+            </li>
+            <li>
+              <.theme_toggle />
+            </li>
+          <% else %>
+            <%!-- Usuario NO logueado --%>
+            <li>
+              <.link href={~p"/users/register"} class="btn btn-ghost btn-sm">
+                Registro
+              </.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log-in"} class="btn btn-primary btn-sm">
+                Iniciar Sesión
+              </.link>
+            </li>
+            <li>
+              <.theme_toggle />
+            </li>
+          <% end %>
         </ul>
       </div>
     </header>
