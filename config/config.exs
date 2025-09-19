@@ -7,6 +7,19 @@
 # General application configuration
 import Config
 
+config :chirp, :scopes,
+  user: [
+    default: true,
+    module: Chirp.Accounts.Scope,
+    assign_key: :current_scope,
+    access_path: [:user, :id],
+    schema_key: :user_id,
+    schema_type: :id,
+    schema_table: :users,
+    test_data_fixture: Chirp.AccountsFixtures,
+    test_setup_helper: :register_and_log_in_user
+  ]
+
 config :chirp,
   ecto_repos: [Chirp.Repo],
   generators: [timestamp_type: :utc_datetime]
